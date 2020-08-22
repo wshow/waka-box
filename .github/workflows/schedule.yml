@@ -1,0 +1,22 @@
+name: Update Waka-Box Gist
+
+on:
+  push:
+    branches: master
+
+  schedule:
+    - cron: "0 */3 * * *"
+
+jobs:
+  update-gist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Install
+        run: npm ci
+      - name: Update gist
+        run: node ./index.js
+        env:
+          GH_TOKEN: ${{ secrets.GIST_GH_TOKEN }}
+          GIST_ID: ${{ secrets.WAKA_GIST_ID  }}
+          WAKATIME_API_KEY: ${{ secrets.WAKA_API_TOKEN }}
